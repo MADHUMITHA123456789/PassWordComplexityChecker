@@ -1,40 +1,58 @@
-import re
+import java.util.*;
+import java.util.regex.*;
+public class PasswordChecker
+{
+    public static void main(String args[])
+    {
+        Scanner sc=new Scanner(System.in);
+        System.out.println("Enter your password to check its strength");
+        String password=sc.nextLine();
+        int score=0;
+        //if the password must atleast contain 9 characters
+        //Every time a character is encountered the value of score is incremented
 
-def check_password_complexity(password):
-    # Define criteria for password strength
-    length_criteria = len(password) >= 8
-    uppercase_criteria = bool(re.search(r'[A-Z]', password))
-    lowercase_criteria = bool(re.search(r'[a-z]', password))
-    digit_criteria = bool(re.search(r'\d', password))
-    special_char_criteria = bool(re.search(r'[!@#$%^&*(),.?":{}|<>]', password))
+        if(password.length()>=9)
+        {
+            score++;
+        }
+        //It checks for the presence of an uppercase letter
+        if(Pattern.compile("[A-Z]").matcher(password).find())
+        {
+            score++;
+        }
+        //It checks the presence of a lowercase letter and increments the score value
+        if(Pattern.compile("[a-z]").matcher(password).find())
+        {
+            score++;
+        }
+        //It increments the score for every digit
+        if(Pattern.compile("[0-9]").matcher(password).find())
+        {
+            score++;
+        }
+        if(Pattern.compile("[-_+=;!@#$%^&*(),.?\":{}|<>]").matcher(password).find())
+        {
+            score++;
+        }
+        //Based on the score value the strength of the password is decided
+        if(score<=3)
+        {
+            System.out.println("Weak password");
+        }
+        else if(score==4)
+        {
+            System.out.println("Medium password");
+        }
+        else if(score>=5)
+        {
+            System.out.println("Strong password");
+        }
+        if(score>=15)
+        {
+            System.out.println("Your password is too long..Prone to threats..");
+        }
+        sc.close();
+    }
 
-    # Assess the strength of the password based on criteria
-    if length_criteria and uppercase_criteria and lowercase_criteria and digit_criteria and special_char_criteria:
-        return "This is considered as s Strong password!"
-    else:
-        feedback = "This is considered as a weak password. You can use these improvements in improvig your passwor strength:\n"
-        if not length_criteria:
-            feedback += "* First, ensure the password is at least 8 characters long\n"
-        if not uppercase_criteria:
-            feedback += "- Can Include at least one uppercase letter\n"
-        if not lowercase_criteria:
-            feedback += "- Include at least one lowercase letter\n"
-        if not digit_criteria:
-            feedback += "- Include at least one digit\n"
-        if not special_char_criteria:
-            feedback += "- Include at least one special character (!@#$%^&*(),.?\":{}|<>)\n"
 
-        return feedback
-
-def main():
-    print("Password Complexity Checker")
-
-    # Get user input for the password
-    password = input("Enter your password: ")
-
-    # Check and provide feedback on the password complexity
-    result = check_password_complexity(password)
-    print(result)
-
-if __name__ == "__main__":
-    main()
+}
